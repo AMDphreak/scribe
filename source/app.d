@@ -21,6 +21,8 @@ mixin APP_ENTRY_POINT;
 // Action IDs
 enum SyndromeActions : int {
 	FileOpenRepo = 10100,
+	FileSave = 10103,
+	FileCommit = 10104, // "Commit" = push to GitHub (save is local write)
 	FileExit = 10101,
 	HelpAbout = 10102,
 }
@@ -48,6 +50,7 @@ class SyndromeFrame : VerticalLayout {
 	EditBox _preview;
 	string _repoRoot;
 	string _currentFilePath;
+	GhRepo _ghRepo; // set when repo is opened, for push
 	SsgScan _scan;
 	ResizerWidget _resizer1;
 	ResizerWidget _resizer2;
@@ -65,8 +68,16 @@ class SyndromeFrame : VerticalLayout {
 		_openBtn = new Button("open");
 		_openBtn.text = "Open repo"d;
 		_openBtn.click = delegate(Widget w) { onOpenRepo(w); return true; };
+		Button saveBtn = new Button("save");
+		saveBtn.text = "Save"d;
+		saveBtn.click = delegate(Widget w) { onSave(w); return true; };
+		Button commitBtn = new Button("commit");
+		commitBtn.text = "Commit"d;
+		commitBtn.click = delegate(Widget w) { onCommit(w); return true; };
 		topBar.addChild(_urlEdit);
 		topBar.addChild(_openBtn);
+		topBar.addChild(saveBtn);
+		topBar.addChild(commitBtn);
 		addChild(topBar);
 
 		_statusWidget = new TextWidget("status");
@@ -157,6 +168,7 @@ class SyndromeFrame : VerticalLayout {
 			return;
 		}
 		_repoRoot = localPath;
+		_ghRepo = repo;
 		_scan = scanRepo(_repoRoot);
 		_statusWidget.text = "Detected: "d ~ toUTF32(ssgKindName(_scan.kind)) ~ ". Loading tree..."d;
 
@@ -180,7 +192,36 @@ class SyndromeFrame : VerticalLayout {
 		fillTree(contentRoot, _scan.contentTree, _repoRoot);
 		fillTree(otherRoot, _scan.otherTree, _repoRoot);
 		_contentTree.items.selectItem(contentRoot);
-		_statusWidget.text = "Ready. Select a file to edit."d;
+		_statusWidget.text = "Ready. Select a file to edit. Save = write locally; Commit = push to GitHub."d;
+	}
+
+	void onSave(Widget) {
+		if (_currentFilePath.length == 0) {
+			window.showMessageBox("Syndrome"d, "Open a file first."d);
+			return;
+		}
+		try {
+			import std.utf : toUTF8;
+			write(_currentFilePath, toUTF8(_editor.text));
+			_statusWidget.text = "Saved."d;
+		} catch (Exception e) {
+			window.showMessageBox("Syndrome"d, "Could not save: "d ~ toUTF32(e.msg));
+		}
+	}
+
+	void onCommit(Widget) {
+		if (_repoRoot.length == 0 || !_ghRepo.valid) {
+			window.showMessageBox("Syndrome"d, "Open a repo first."d);
+			return;
+		}
+		_statusWidget.text = "Committing and pushing..."d;
+		bool ok = commitAndPush(_repoRoot, "Update content from Syndrome");
+		if (ok) {
+			_statusWidget.text = "Pushed to GitHub."d;
+		} else {
+			window.showMessageBox("Syndrome"d, "Commit or push failed. Check git/gh and try again."d);
+			_statusWidget.text = "Commit failed."d;
+		}
 	}
 
 	void onContentTreeSelect(TreeItems source, TreeItem selectedItem, bool activated) {
@@ -234,6 +275,8 @@ extern (C) int UIAppMain(string[] args) {
 	MenuItem mainMenuItems = new MenuItem();
 	MenuItem fileItem = new MenuItem(new Action(1, "File"d));
 	fileItem.add(new Action(SyndromeActions.FileOpenRepo, "Open repo..."d, "document-open", KeyCode.KEY_O, KeyFlag.Control));
+	fileItem.add(new Action(SyndromeActions.FileSave, "Save"d, "document-save", KeyCode.KEY_S, KeyFlag.Control));
+	fileItem.add(new Action(SyndromeActions.FileCommit, "Commit (push to GitHub)"d, "document-save-as"));
 	fileItem.add(new Action(SyndromeActions.FileExit, "Exit"d, "document-close", KeyCode.KEY_X, KeyFlag.Alt));
 	MenuItem helpItem = new MenuItem(new Action(4, "Help"d));
 	helpItem.add(new Action(SyndromeActions.HelpAbout, "About Syndrome"d));
@@ -253,10 +296,9 @@ extern (C) int UIAppMain(string[] args) {
 			window.close();
 			return true;
 		}
-		if (a.id == SyndromeActions.FileOpenRepo) {
-			// Focus URL and trigger could be done via frame
-			return true;
-		}
+		if (a.id == SyndromeActions.FileOpenRepo) return true;
+		if (a.id == SyndromeActions.FileSave) { frame.onSave(null); return true; }
+		if (a.id == SyndromeActions.FileCommit) { frame.onCommit(null); return true; }
 		if (a.id == SyndromeActions.HelpAbout) {
 			window.showMessageBox("About Syndrome"d, "Syndrome — Edit Markdown/AsciiDoc in GitHub static site repos.\n\nFor non-technical users. Supports Hugo, Jekyll, MkDocs, Docusaurus, Astro, Starlight, Antora, VitePress, Eleventy, and more.\n\nNamed for \"Markdown Syndrome\" and for the Down Syndrome non-profit (Memphis, TN).\n\nAGPL-3.0-or-later © AMDphreak"d);
 			return true;

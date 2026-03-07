@@ -1,0 +1,31 @@
+{
+  "folders": [
+    {
+      "name": "Syndrome",
+      "path": "."
+    }
+  ],
+  "settings": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "dprint.dprint",
+    "[d]": {
+      "editor.defaultFormatter": "webfreak.code-d",
+      "editor.formatOnSave": true
+    },
+    "[json]": {
+      "editor.defaultFormatter": "dprint.dprint"
+    },
+    "[jsonc]": {
+      "editor.defaultFormatter": "dprint.dprint"
+    },
+    "[markdown]": {
+      "editor.defaultFormatter": "dprint.dprint"
+    }
+  },
+  "extensions": {
+    "recommendations": [
+      "dprint.dprint",
+      "webfreak.code-d"
+    ]
+  }
+}

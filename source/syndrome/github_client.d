@@ -109,3 +109,31 @@ void getRepoMeta(GhRepo repo, out string description, out string homepage) {
 	} catch (Exception) {
 	}
 }
+
+/// Stage all changes, commit with message, and push to remote. Returns true on success.
+/// Uses "git -C <repoRoot>" so the command runs in the repo directory.
+bool commitAndPush(string repoRoot, string message) {
+	try {
+		auto add = spawnProcess(["git", "-C", repoRoot, "add", "-A"]);
+		if (wait(add) != 0) return false;
+		auto commit = spawnProcess(["git", "-C", repoRoot, "commit", "-m", message]);
+		if (wait(commit) != 0) return false;
+		auto push = spawnProcess(["git", "-C", repoRoot, "push"]);
+		return wait(push) == 0;
+	} catch (Exception) {
+		return false;
+	}
+}
+
+/// Check if there are uncommitted changes (for UI hint).
+bool hasUncommittedChanges(string repoRoot) {
+	try {
+		auto proc = pipeProcess(["git", "-C", repoRoot, "status", "--porcelain"], Redirect.stdout);
+		auto code = wait(proc.pid);
+		if (code != 0) return false;
+		string line = proc.stdout.readln().strip();
+		return line.length > 0;
+	} catch (Exception) {
+		return false;
+	}
+}
