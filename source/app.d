@@ -15,6 +15,7 @@ import std.path : pathSeparator;
 
 import syndrome.ssg_detect;
 import syndrome.github_client;
+import syndrome.onboarding;
 
 mixin APP_ENTRY_POINT;
 
@@ -24,6 +25,7 @@ enum SyndromeActions : int {
 	FileSave = 10103,
 	FileCommit = 10104, // "Commit" = push to GitHub (save is local write)
 	FileExit = 10101,
+	HelpSetupTools = 10105,
 	HelpAbout = 10102,
 }
 
@@ -81,7 +83,7 @@ class SyndromeFrame : VerticalLayout {
 		addChild(topBar);
 
 		_statusWidget = new TextWidget("status");
-		_statusWidget.text = "Paste a repo URL and click Open. Log in with GitHub (gh auth login) if needed."d;
+		_statusWidget.text = "Paste a repo URL and click Open. Use Help → Set up tools if you need to install GitHub CLI or log in."d;
 		addChild(_statusWidget);
 
 		_homepageHint = new TextWidget("homepage");
@@ -279,6 +281,7 @@ extern (C) int UIAppMain(string[] args) {
 	fileItem.add(new Action(SyndromeActions.FileCommit, "Commit (push to GitHub)"d, "document-save-as"));
 	fileItem.add(new Action(SyndromeActions.FileExit, "Exit"d, "document-close", KeyCode.KEY_X, KeyFlag.Alt));
 	MenuItem helpItem = new MenuItem(new Action(4, "Help"d));
+	helpItem.add(new Action(SyndromeActions.HelpSetupTools, "Set up tools (install gh, Git, log in)"d));
 	helpItem.add(new Action(SyndromeActions.HelpAbout, "About Syndrome"d));
 	mainMenuItems.add(fileItem);
 	mainMenuItems.add(helpItem);
@@ -299,8 +302,12 @@ extern (C) int UIAppMain(string[] args) {
 		if (a.id == SyndromeActions.FileOpenRepo) return true;
 		if (a.id == SyndromeActions.FileSave) { frame.onSave(null); return true; }
 		if (a.id == SyndromeActions.FileCommit) { frame.onCommit(null); return true; }
+		if (a.id == SyndromeActions.HelpSetupTools) {
+			runOnboarding(window);
+			return true;
+		}
 		if (a.id == SyndromeActions.HelpAbout) {
-			window.showMessageBox("About Syndrome"d, "Syndrome — Edit Markdown/AsciiDoc in GitHub static site repos.\n\nFor non-technical users. Supports Hugo, Jekyll, MkDocs, Docusaurus, Astro, Starlight, Antora, VitePress, Eleventy, and more.\n\nNamed for \"Markdown Syndrome\" and for the Down Syndrome non-profit (Memphis, TN).\n\nAGPL-3.0-or-later © AMDphreak"d);
+			window.showMessageBox("About Syndrome"d, "Syndrome — Edit Markdown/AsciiDoc in GitHub static site repos.\n\nFor non-technical users. Supports Hugo, Jekyll, MkDocs, Docusaurus, Astro, Starlight, Antora, VitePress, Eleventy, and more.\n\nNamed for \"Markdown Syndrome\" and for the Down Syndrome non-profit (Memphis, TN).\n\nGitHub: https://github.com/AMDphreak/syndrome\nDocs (GitHub Pages): https://amdphreak.github.io/syndrome\n\nAGPL-3.0-or-later © AMDphreak"d);
 			return true;
 		}
 		return false;
@@ -308,5 +315,15 @@ extern (C) int UIAppMain(string[] args) {
 
 	window.mainWidget = content;
 	window.show();
+
+	// If GitHub CLI is missing or user not logged in, show onboarding (winget install + gh auth login).
+	string username;
+	AuthStatus auth = checkGhAuth(username);
+	if (auth == AuthStatus.noGhCli || auth == AuthStatus.notAuthenticated) {
+		runOnboarding(window);
+		// Refresh PATH so newly installed gh is found (user may need to restart for PATH).
+		// Proceed to main loop; user can open onboarding again from Help if needed.
+	}
+
 	return Platform.instance.enterMessageLoop();
 }

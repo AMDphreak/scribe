@@ -1,5 +1,8 @@
 = Syndrome
 
+* Repository: https://github.com/AMDphreak/syndrome
+* Docs (GitHub Pages): https://amdphreak.github.io/syndrome
+
 A desktop app that lets non-technical users connect to a GitHub repository containing Markdown or AsciiDoc files for common static site generators. Users paste a GitHub URL (given to them by the site maintainer), and Syndrome discovers the page structure, clones the repo locally, and provides a tree view and editor for content—with orientation hints from the repo description or README when available.
 
 The name plays on "Markdown Syndrome" and was chosen for a Down Syndrome non-profit use case in Memphis, TN.
