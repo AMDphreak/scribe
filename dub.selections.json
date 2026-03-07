@@ -1,0 +1,17 @@
+{
+	"fileVersion": 1,
+	"versions": {
+		"bindbc-freetype": "1.0.5",
+		"bindbc-loader": "1.0.3",
+		"bindbc-opengl": "1.0.5",
+		"bindbc-sdl": "1.0.1",
+		"dlangui": "0.9.188",
+		"dsfml": "2.1.1",
+		"icontheme": "1.2.3",
+		"inilike": "1.2.3",
+		"isfreedesktop": "0.1.1",
+		"undead": "1.1.8",
+		"x11": "1.0.21",
+		"xdgpaths": "0.2.5"
+	}
+}

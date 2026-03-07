@@ -1,0 +1,34 @@
+# D / DUB
+bin/
+.dub/
+__dummy.html
+docs/
+*.o
+*.obj
+*.so
+*.a
+*.lib
+*.dll
+*.exe
+
+# IDE
+.idea/
+*.iml
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Syndrome app data (local clones, cache)
+.repos/
+.cache/
+*.log
+
+# Build artifacts
+*.lst
+*.map

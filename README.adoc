@@ -1,0 +1,59 @@
+= Syndrome
+
+A desktop app that lets non-technical users connect to a GitHub repository containing Markdown or AsciiDoc files for common static site generators. Users paste a GitHub URL (given to them by the site maintainer), and Syndrome discovers the page structure, clones the repo locally, and provides a tree view and editor for content—with orientation hints from the repo description or README when available.
+
+The name plays on "Markdown Syndrome" and was chosen for a Down Syndrome non-profit use case in Memphis, TN.
+
+== Features
+
+* *GitHub repo URL* — Paste `owner/repo` or a full GitHub URL.
+* *Authentication* — Uses the GitHub CLI (`gh`); users run `gh auth login` once.
+* *SSG discovery* — Heuristics detect Hugo, Jekyll, MkDocs, Docusaurus, Astro, Starlight, Antora, VitePress, Eleventy, Next.js (static), and generic MD/MDX/AsciiDoc layouts.
+* *Content vs other* — Editable content (`.md`, `.mdx`, `.adoc`, etc.) appears in a "Content" tree; layouts, config, and static assets in a separate "Other" tree.
+* *Repo metadata* — Description and homepage from the GitHub API are shown as orientation when available.
+* *Edit and preview* — Open a file from the content tree to edit; preview is currently raw (full Markdown/AsciiDoc/MDX rendering and optional Antora preview are planned).
+
+== Supported static site generators
+
+* Hugo
+* Jekyll
+* MkDocs
+* Docusaurus
+* Astro
+* Starlight (Astro-based docs)
+* Antora
+* VitePress
+* Eleventy (11ty)
+* Next.js (static)
+* Generic MD/MDX/AsciiDoc (docs/content/src)
+
+MDX is supported as content; Antora can be detected for structure; full Antora preview may be added as an optional dependency.
+
+== Requirements
+
+* D compiler (e.g. DMD or LDC) and link:https://code.dlang.org/download[DUB]
+* link:https://cli.github.com/[GitHub CLI] (`gh`) — install and run `gh auth login` before opening a repo in Syndrome
+* Windows (primary), with DlangUI; other platforms may work with the SDL backend
+
+== Build and run
+
+----
+cd syndrome
+dub run
+----
+
+Configurations: `default` (Win32/desktop), `sdl`, `console` (headless).
+
+== Project layout
+
+* `source/app.d` — Entry point and main window (URL bar, trees, editor, preview)
+* `source/syndrome/ssg_detect.d` — Static site generator detection and content/other tree building
+* `source/syndrome/github_client.d` — GitHub URL parsing, `gh` auth check, clone, repo metadata
+
+== License
+
+AGPL-3.0-or-later (see `LICENSE`). Source-available, copyleft.
+
+== Contributing
+
+Contributions are welcome. Please open issues and pull requests on the project repository.

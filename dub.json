@@ -1,0 +1,19 @@
+{
+  "name": "syndrome",
+  "description": "Help non-technical users edit Markdown/AsciiDoc content in GitHub-hosted static site repos. Named for 'Markdown Syndrome' and for the Down Syndrome non-profit use case.",
+  "homepage": "https://github.com/amdphreak/syndrome",
+  "license": "AGPL-3.0-or-later",
+  "authors": ["AMDphreak"],
+  "targetPath": "bin",
+  "targetType": "executable",
+  "targetName": "syndrome",
+  "sourcePaths": ["source"],
+  "dependencies": {
+    "dlangui": "~>0.9.82"
+  },
+  "configurations": [
+    { "name": "default" },
+    { "name": "console", "subConfigurations": { "dlangui": "console" } },
+    { "name": "sdl", "subConfigurations": { "dlangui": "sdl" } }
+  ]
+}
