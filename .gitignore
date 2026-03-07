@@ -2,7 +2,6 @@
 bin/
 .dub/
 __dummy.html
-docs/
 *.o
 *.obj
 *.so

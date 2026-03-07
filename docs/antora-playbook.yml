@@ -1,0 +1,17 @@
+# Antora playbook for Syndrome docs (optional).
+# Builds to site/dist/docs so the SolidJS homepage and Antora docs deploy together.
+# Run from repo root: antora docs/antora-playbook.yml
+
+site:
+  title: Syndrome
+  url: https://amdphreak.github.io/syndrome
+  start_page: docs::index.adoc
+
+content:
+  sources:
+    - url: .
+      start_path: docs
+      branches: HEAD
+
+output:
+  dir: ../site/dist/docs

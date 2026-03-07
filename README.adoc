@@ -49,9 +49,8 @@ Configurations: `default` (Win32/desktop), `sdl`, `console` (headless).
 
 == Project layout
 
-* `source/app.d` — Entry point and main window (URL bar, trees, editor, preview)
-* `source/syndrome/ssg_detect.d` — Static site generator detection and content/other tree building
-* `source/syndrome/github_client.d` — GitHub URL parsing, `gh` auth check, clone, repo metadata
+* `source/` — D app (entry point, SSG discovery, GitHub client, onboarding)
+* `site/` — SolidJS + Vite homepage for GitHub Pages (link:https://amdphreak.github.io/syndrome[https://amdphreak.github.io/syndrome]). Optional Antora docs can be built into `site/dist/docs` for the /docs subpath (see `site/README.md` and `docs/antora-playbook.yml`).
 
 == License
 

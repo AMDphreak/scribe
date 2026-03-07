@@ -14,6 +14,7 @@ import std.file : readText, write, exists, isFile;
 import std.path : pathSeparator;
 
 import syndrome.ssg_detect;
+import syndrome.ssg_config;
 import syndrome.github_client;
 import syndrome.onboarding;
 
@@ -24,6 +25,7 @@ enum SyndromeActions : int {
 	FileOpenRepo = 10100,
 	FileSave = 10103,
 	FileCommit = 10104, // "Commit" = push to GitHub (save is local write)
+	FileSyncNav = 10106, // Update site nav from content tree (no manual YAML edit)
 	FileExit = 10101,
 	HelpSetupTools = 10105,
 	HelpAbout = 10102,
@@ -76,10 +78,14 @@ class SyndromeFrame : VerticalLayout {
 		Button commitBtn = new Button("commit");
 		commitBtn.text = "Commit"d;
 		commitBtn.click = delegate(Widget w) { onCommit(w); return true; };
+		Button syncNavBtn = new Button("sync_nav");
+		syncNavBtn.text = "Sync page structure"d;
+		syncNavBtn.click = delegate(Widget w) { onSyncNav(w); return true; };
 		topBar.addChild(_urlEdit);
 		topBar.addChild(_openBtn);
 		topBar.addChild(saveBtn);
 		topBar.addChild(commitBtn);
+		topBar.addChild(syncNavBtn);
 		addChild(topBar);
 
 		_statusWidget = new TextWidget("status");
@@ -226,6 +232,21 @@ class SyndromeFrame : VerticalLayout {
 		}
 	}
 
+	void onSyncNav(Widget) {
+		if (_repoRoot.length == 0 || _scan.contentTree.length == 0) {
+			window.showMessageBox("Syndrome"d, "Open a repo with content first."d);
+			return;
+		}
+		NavEntry[] nav = buildDefaultNav(_scan.contentTree);
+		bool ok = applyDefaultNavToConfig(_repoRoot, _scan.kind, nav);
+		if (ok) {
+			_statusWidget.text = "Page structure updated from content tree. Save and Commit to push."d;
+			window.showMessageBox("Syndrome"d, "Site nav/config was updated from your content tree. Use Save and Commit to push changes."d);
+		} else {
+			window.showMessageBox("Syndrome"d, "This SSG is not supported for automatic nav yet (MkDocs is). You can still edit config files in the Other tree."d);
+		}
+	}
+
 	void onContentTreeSelect(TreeItems source, TreeItem selectedItem, bool activated) {
 		if (!selectedItem || _repoRoot.length == 0) return;
 		string path = selectedItem.id;
@@ -279,6 +300,7 @@ extern (C) int UIAppMain(string[] args) {
 	fileItem.add(new Action(SyndromeActions.FileOpenRepo, "Open repo..."d, "document-open", KeyCode.KEY_O, KeyFlag.Control));
 	fileItem.add(new Action(SyndromeActions.FileSave, "Save"d, "document-save", KeyCode.KEY_S, KeyFlag.Control));
 	fileItem.add(new Action(SyndromeActions.FileCommit, "Commit (push to GitHub)"d, "document-save-as"));
+	fileItem.add(new Action(SyndromeActions.FileSyncNav, "Sync page structure from content"d));
 	fileItem.add(new Action(SyndromeActions.FileExit, "Exit"d, "document-close", KeyCode.KEY_X, KeyFlag.Alt));
 	MenuItem helpItem = new MenuItem(new Action(4, "Help"d));
 	helpItem.add(new Action(SyndromeActions.HelpSetupTools, "Set up tools (install gh, Git, log in)"d));
@@ -302,6 +324,7 @@ extern (C) int UIAppMain(string[] args) {
 		if (a.id == SyndromeActions.FileOpenRepo) return true;
 		if (a.id == SyndromeActions.FileSave) { frame.onSave(null); return true; }
 		if (a.id == SyndromeActions.FileCommit) { frame.onCommit(null); return true; }
+		if (a.id == SyndromeActions.FileSyncNav) { frame.onSyncNav(null); return true; }
 		if (a.id == SyndromeActions.HelpSetupTools) {
 			runOnboarding(window);
 			return true;
