@@ -3,7 +3,7 @@
  * Workaround: streams command output using a thread + timer + LogWidget
  * (no ProcessOutputWidget dependency until dlangui PR is merged).
  */
-module syndrome.onboarding;
+module scribe.onboarding;
 
 import dlangui;
 import dlangui.widgets.editors;
@@ -22,7 +22,7 @@ import std.string : strip;
 
 /// Show onboarding when tools are missing. Returns true if user clicked Done (or closed), false if aborted.
 bool runOnboarding(Window parentWindow) {
-	auto dialog = new OnboardingDialog(UIString.fromRaw("Set up Syndrome"d), parentWindow);
+	auto dialog = new OnboardingDialog(UIString.fromRaw("Set up Scribe"d), parentWindow);
 	dialog.show();
 	return dialog.completed;
 }
@@ -44,7 +44,7 @@ class OnboardingDialog : Dialog {
 
 	override void initialize() {
 		TextWidget hint = new TextWidget("hint");
-		hint.text = "Syndrome needs GitHub CLI and Git. Click the buttons below to install them (Windows: winget). Then log in to GitHub. After installing, restart Syndrome so the new tools are found."d;
+		hint.text = "Scribe needs GitHub CLI and Git. Click the buttons below to install them (Windows: winget). Then log in to GitHub. After installing, restart Scribe so the new tools are found."d;
 		hint.layoutWidth = FILL_PARENT;
 		addChild(hint);
 

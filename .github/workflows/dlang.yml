@@ -9,19 +9,18 @@ on:
 
 jobs:
   build:
-    name: Build
+    name: Build (LDC)
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest]
-        dc: [dmd, ldc]
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install D compiler
+      - name: Install D compiler (LDC)
         uses: dlang-community/setup-dlang@v2
         with:
-          compiler: ${{ matrix.dc }}
+          compiler: ldc
 
       - name: Build
         run: dub build

@@ -2,9 +2,9 @@
  * Simplified page structure (nav) for SSGs. Build from content tree and write
  * config on the user's behalf so they don't edit YAML/TOML by hand.
  */
-module syndrome.ssg_config;
+module scribe.ssg_config;
 
-import syndrome.ssg_detect;
+import scribe.ssg_detect;
 import std.algorithm : canFind, startsWith;
 import std.file : readText, write, exists, isFile;
 import std.path : pathSeparator;

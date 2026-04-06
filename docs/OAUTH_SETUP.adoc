@@ -1,0 +1,43 @@
+= Scribe: OAuth Setup Guide
+:toc:
+
+Scribe connects directly to GitHub and GitLab APIs to allow you to "Publish" changes (commit and push) without using command-line tools. To enable this, you need to create your own OAuth Client ID and Secret if the default one is not provided.
+
+== GitHub Setup
+
+1. Log in to your GitHub account.
+2. Go to **Settings** -> **Developer settings** -> **OAuth Apps**.
+3. Click **New OAuth App**.
+4. Set the following:
+   * **Application name**: `Scribe` (or your choice)
+   * **Homepage URL**: `https://github.com/amdphreak/scribe`
+   * **Authorization callback URL**: `http://localhost:8080/callback` (Required for local auth)
+5. Click **Register application**.
+6. Note your **Client ID**.
+7. Click **Generate a new client secret** and save it safely.
+
+== GitLab Setup
+
+1. Log in to your GitLab account.
+2. Go to **User Settings** -> **Applications**.
+3. Set the following:
+   * **Name**: `Scribe`
+   * **Redirect URI**: `http://localhost:8080/callback`
+   * **Scopes**: Check `api`, `read_user`, `write_repository`.
+4. Click **Save application**.
+5. Note your **Application ID** (Client ID) and **Secret**.
+
+== Updating Scribe Profiles
+
+Scribe stores these settings in `.sdl` files in your user profile or the application directory.
+
+[source,sdl]
+----
+// profiles/github.sdl
+name "GitHub"
+host "github.com"
+clientId "YOUR_CLIENT_ID"
+clientSecret "YOUR_CLIENT_SECRET"
+----
+
+WARNING: Never share your Client Secret with anyone. If you are building Scribe for others, you should handle the secret securely or use the default public app flow if available.

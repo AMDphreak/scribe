@@ -1,61 +1,32 @@
-= Syndrome
+= Scribe — Write. Publish. Done.
+:toc:
+:icons: font
 
-* Repository: https://github.com/AMDphreak/syndrome
-* Docs (GitHub Pages): https://amdphreak.github.io/syndrome
+Scribe is a user-friendly, non-technical environment for editing website content. It's designed for people who want to manage their static sites (built with Astro, Hugo, Jekyll, etc.) without needing to understand Git, Markdown, or the command line.
 
-A desktop app that lets non-technical users connect to a GitHub repository containing Markdown or AsciiDoc files for common static site generators. Users paste a GitHub URL (given to them by the site maintainer), and Syndrome discovers the page structure, clones the repo locally, and provides a tree view and editor for content—with orientation hints from the repo description or README when available.
-
-The name plays on "Markdown Syndrome" and was chosen for a Down Syndrome non-profit use case in Memphis, TN.
+image::docs/images/scribe-screenshot.png[Scribe Screenshot]
 
 == Features
 
-* *GitHub repo URL* — Paste `owner/repo` or a full GitHub URL.
-* *Authentication* — Uses the GitHub CLI (`gh`); users run `gh auth login` once.
-* *SSG discovery* — Heuristics detect Hugo, Jekyll, MkDocs, Docusaurus, Astro, Starlight, Antora, VitePress, Eleventy, Next.js (static), and generic MD/MDX/AsciiDoc layouts.
-* *Content vs other* — Editable content (`.md`, `.mdx`, `.adoc`, etc.) appears in a "Content" tree; layouts, config, and static assets in a separate "Other" tree.
-* *Repo metadata* — Description and homepage from the GitHub API are shown as orientation when available.
-* *Edit and preview* — Open a file from the content tree to edit; preview is currently raw (full Markdown/AsciiDoc/MDX rendering and optional Antora preview are planned).
+* **Visual Editing**: Edit your site's content like a regular document.
+* **Direct Publishing**: Click "Publish" to save changes directly to your site's repository (GitHub or GitLab).
+* **Automatic Navigation**: Scribe automatically manages your site's menu and structure.
+* **No Git Knowledge Required**: We handle the technical stuff in the background.
 
-== Supported static site generators
+== Getting Started
 
-* Hugo
-* Jekyll
-* MkDocs
-* Docusaurus
-* Astro
-* Starlight (Astro-based docs)
-* Antora
-* VitePress
-* Eleventy (11ty)
-* Next.js (static)
-* Generic MD/MDX/AsciiDoc (docs/content/src)
+1. Download the latest version for your system from the **Releases** page.
+2. Open Scribe and paste your **Site Address** (e.g., `https://github.com/user/my-cool-site`).
+3. Click **Open Site**.
+4. Log in when prompted (the app will open your web browser).
+5. Start editing!
 
-MDX is supported as content; Antora can be detected for structure; full Antora preview may be added as an optional dependency.
+== Configuration (Advanced)
 
-== Requirements
+Scribe supports custom VCS providers and Git configurations via SDLang profiles. By default, it supports GitHub and GitLab.
 
-* D compiler (e.g. DMD or LDC) and link:https://code.dlang.org/download[DUB]
-* link:https://cli.github.com/[GitHub CLI] (`gh`) — install and run `gh auth login` before opening a repo in Syndrome
-* Windows (primary), with DlangUI; other platforms may work with the SDL backend
-
-== Build and run
-
-----
-cd syndrome
-dub run
-----
-
-Configurations: `default` (Win32/desktop), `sdl`, `console` (headless).
-
-== Project layout
-
-* `source/` — D app (entry point, SSG discovery, GitHub client, onboarding)
-* `site/` — SolidJS + Vite homepage for GitHub Pages (link:https://amdphreak.github.io/syndrome[https://amdphreak.github.io/syndrome]). Optional Antora docs can be built into `site/dist/docs` for the /docs subpath (see `site/README.md` and `docs/antora-playbook.yml`).
+See the link:docs/OAUTH_SETUP.adoc[OAuth Setup Guide] for information on setting up your own API keys.
 
 == License
 
-AGPL-3.0-or-later (see `LICENSE`). Source-available, copyleft.
-
-== Contributing
-
-Contributions are welcome. Please open issues and pull requests on the project repository.
+Scribe is licensed under the **AGPL-3.0-or-later**.

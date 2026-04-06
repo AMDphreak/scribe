@@ -1,0 +1,8 @@
+name "GitHub"
+host "github.com"
+binary "git"
+authUrl "https://github.com/login/oauth/authorize"
+tokenUrl "https://github.com/login/oauth/access_token"
+apiUrl "https://api.github.com"
+helpUrl "https://docs.github.com"
+setupGuide "Create an OAuth App on GitHub Settings. Use http://localhost:8080 as callback."

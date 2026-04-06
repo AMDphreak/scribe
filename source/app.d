@@ -1,7 +1,6 @@
 /**
- * Syndrome — Edit Markdown/AsciiDoc in GitHub static site repos.
+ * Scribe — A user-friendly writing environment for static site content.
  * For non-technical users; supports major static site generators.
- * Named for "Markdown Syndrome" and for the Down Syndrome non-profit (Memphis, TN).
  */
 module app;
 
@@ -13,19 +12,18 @@ import std.utf : toUTF32;
 import std.file : readText, write, exists, isFile;
 import std.path : pathSeparator;
 
-import syndrome.ssg_detect;
-import syndrome.ssg_config;
-import syndrome.github_client;
-import syndrome.onboarding;
-
+import scribe.ssg_detect;
+import scribe.ssg_config;
+import scribe.api_client;
+import scribe.onboarding;
 mixin APP_ENTRY_POINT;
 
 // Action IDs
-enum SyndromeActions : int {
-	FileOpenRepo = 10100,
+enum ScribeActions : int {
+	FileOpenSite = 10100,
 	FileSave = 10103,
-	FileCommit = 10104, // "Commit" = push to GitHub (save is local write)
-	FileSyncNav = 10106, // Update site nav from content tree (no manual YAML edit)
+	FilePublish = 10104, // "Publish" = push to site repository
+	FileSyncNav = 10106, // Update site navigation
 	FileExit = 10101,
 	HelpSetupTools = 10105,
 	HelpAbout = 10102,
@@ -43,7 +41,7 @@ void fillTree(TreeItem parent, const SsgNode[] nodes, string repoRoot) {
 }
 
 /// Main application frame: URL input, content/other trees, editor, preview.
-class SyndromeFrame : VerticalLayout {
+class ScribeFrame : VerticalLayout {
 	EditLine _urlEdit;
 	Button _openBtn;
 	TextWidget _statusWidget;
@@ -70,26 +68,26 @@ class SyndromeFrame : VerticalLayout {
 		_urlEdit = new EditLine("url");
 		_urlEdit.layoutWidth = FILL_PARENT;
 		_openBtn = new Button("open");
-		_openBtn.text = "Open repo"d;
-		_openBtn.click = delegate(Widget w) { onOpenRepo(w); return true; };
+		_openBtn.text = "Open site"d;
+		_openBtn.click = delegate(Widget w) { onOpenSite(w); return true; };
 		Button saveBtn = new Button("save");
-		saveBtn.text = "Save"d;
+		saveBtn.text = "Save draft"d;
 		saveBtn.click = delegate(Widget w) { onSave(w); return true; };
-		Button commitBtn = new Button("commit");
-		commitBtn.text = "Commit"d;
-		commitBtn.click = delegate(Widget w) { onCommit(w); return true; };
+		Button publishBtn = new Button("publish");
+		publishBtn.text = "Publish"d;
+		publishBtn.click = delegate(Widget w) { onPublish(w); return true; };
 		Button syncNavBtn = new Button("sync_nav");
-		syncNavBtn.text = "Sync page structure"d;
+		syncNavBtn.text = "Organize site"d;
 		syncNavBtn.click = delegate(Widget w) { onSyncNav(w); return true; };
 		topBar.addChild(_urlEdit);
 		topBar.addChild(_openBtn);
 		topBar.addChild(saveBtn);
-		topBar.addChild(commitBtn);
+		topBar.addChild(publishBtn);
 		topBar.addChild(syncNavBtn);
 		addChild(topBar);
 
 		_statusWidget = new TextWidget("status");
-		_statusWidget.text = "Paste a repo URL and click Open. Use Help → Set up tools if you need to install GitHub CLI or log in."d;
+		_statusWidget.text = "Paste a site address and click Open. Or use Help → Set up for first-time login."d;
 		addChild(_statusWidget);
 
 		_homepageHint = new TextWidget("homepage");
@@ -146,33 +144,33 @@ class SyndromeFrame : VerticalLayout {
 		};
 	}
 
-	void onOpenRepo(Widget) {
+	void onOpenSite(Widget) {
 		string url = to!string(_urlEdit.text);
 		if (url.length == 0) {
-			window.showMessageBox("Syndrome"d, "Enter a GitHub repository URL."d);
+			window.showMessageBox("Scribe"d, "Enter a site address."d);
 			return;
 		}
 		GhRepo repo = parseRepoUrl(url);
 		if (!repo.valid) {
-			window.showMessageBox("Syndrome"d, "Could not parse URL. Use owner/repo or https://github.com/owner/repo"d);
+			window.showMessageBox("Scribe"d, "Could not parse URL. Use owner/repo or https://github.com/owner/repo"d);
 			return;
 		}
 		string username;
 		AuthStatus auth = checkGhAuth(username);
 		if (auth == AuthStatus.noGhCli) {
-			window.showMessageBox("Syndrome"d, "GitHub CLI (gh) not found. Install it from https://cli.github.com and run: gh auth login"d);
+			window.showMessageBox("Scribe"d, "GitHub CLI (gh) not found. Install it from https://cli.github.com and run: gh auth login"d);
 			return;
 		}
 		if (auth == AuthStatus.notAuthenticated) {
-			window.showMessageBox("Syndrome"d, "Not logged in to GitHub. Run in terminal: gh auth login"d);
+			window.showMessageBox("Scribe"d, "Not logged in to GitHub. Run in terminal: gh auth login"d);
 			return;
 		}
-		_statusWidget.text = "Cloning "d ~ toUTF32(repo.owner ~ "/" ~ repo.repo) ~ "..."d;
-		string cloneDir = appDataPath("syndrome") ~ pathSeparator ~ "repos";
+		_statusWidget.text = "Opening "d ~ toUTF32(repo.owner ~ "/" ~ repo.repo) ~ "..."d;
+		string cloneDir = appDataPath("scribe") ~ pathSeparator ~ "sites";
 		string localPath;
 		if (!cloneRepo(repo, cloneDir, localPath)) {
-			window.showMessageBox("Syndrome"d, "Clone failed. Check permissions and try again."d);
-			_statusWidget.text = "Clone failed."d;
+			window.showMessageBox("Scribe"d, "Could not open site. Check permissions/connection."d);
+			_statusWidget.text = "Opening failed."d;
 			return;
 		}
 		_repoRoot = localPath;
@@ -205,7 +203,7 @@ class SyndromeFrame : VerticalLayout {
 
 	void onSave(Widget) {
 		if (_currentFilePath.length == 0) {
-			window.showMessageBox("Syndrome"d, "Open a file first."d);
+			window.showMessageBox("Scribe"d, "Select a file to edit first."d);
 			return;
 		}
 		try {
@@ -213,37 +211,37 @@ class SyndromeFrame : VerticalLayout {
 			write(_currentFilePath, toUTF8(_editor.text));
 			_statusWidget.text = "Saved."d;
 		} catch (Exception e) {
-			window.showMessageBox("Syndrome"d, "Could not save: "d ~ toUTF32(e.msg));
+			window.showMessageBox("Scribe"d, "Could not save: "d ~ toUTF32(e.msg));
 		}
 	}
 
-	void onCommit(Widget) {
+	void onPublish(Widget) {
 		if (_repoRoot.length == 0 || !_ghRepo.valid) {
-			window.showMessageBox("Syndrome"d, "Open a repo first."d);
+			window.showMessageBox("Scribe"d, "Open a site first."d);
 			return;
 		}
-		_statusWidget.text = "Committing and pushing..."d;
-		bool ok = commitAndPush(_repoRoot, "Update content from Syndrome");
+		_statusWidget.text = "Publishing changes..."d;
+		bool ok = commitAndPush(_repoRoot, "Update content via Scribe");
 		if (ok) {
-			_statusWidget.text = "Pushed to GitHub."d;
+			_statusWidget.text = "Changes published."d;
 		} else {
-			window.showMessageBox("Syndrome"d, "Commit or push failed. Check git/gh and try again."d);
-			_statusWidget.text = "Commit failed."d;
+			window.showMessageBox("Scribe"d, "Publish failed. Please check your connection or login."d);
+			_statusWidget.text = "Publish failed."d;
 		}
 	}
 
 	void onSyncNav(Widget) {
 		if (_repoRoot.length == 0 || _scan.contentTree.length == 0) {
-			window.showMessageBox("Syndrome"d, "Open a repo with content first."d);
+			window.showMessageBox("Scribe"d, "Open a site with content first."d);
 			return;
 		}
 		NavEntry[] nav = buildDefaultNav(_scan.contentTree);
 		bool ok = applyDefaultNavToConfig(_repoRoot, _scan.kind, nav);
 		if (ok) {
-			_statusWidget.text = "Page structure updated from content tree. Save and Commit to push."d;
-			window.showMessageBox("Syndrome"d, "Site nav/config was updated from your content tree. Use Save and Commit to push changes."d);
+			_statusWidget.text = "Page structure updated from content tree. Save and Publish to push."d;
+			window.showMessageBox("Scribe"d, "Site nav/config was updated from your content tree. Use Save and Publish to push changes."d);
 		} else {
-			window.showMessageBox("Syndrome"d, "This SSG is not supported for automatic nav yet (MkDocs is). You can still edit config files in the Other tree."d);
+			window.showMessageBox("Scribe"d, "This SSG is not supported for automatic nav yet (MkDocs is). You can still edit config files in the Other tree."d);
 		}
 	}
 
@@ -261,7 +259,7 @@ class SyndromeFrame : VerticalLayout {
 			// Simple preview: for MD just show raw for now; could add markdown renderer later
 			_preview.text = _editor.text;
 		} catch (Exception e) {
-			window.showMessageBox("Syndrome"d, "Could not read file: "d ~ toUTF32(e.msg));
+			window.showMessageBox("Scribe"d, "Could not read file: "d ~ toUTF32(e.msg));
 		}
 	}
 
@@ -288,7 +286,7 @@ extern (C) int UIAppMain(string[] args) {
 	Platform.instance.uiTheme = "theme_default";
 	FontManager.subpixelRenderingMode = SubpixelRenderingMode.None;
 
-	Window window = Platform.instance.createWindow("Syndrome — Edit static site content", null, WindowFlag.Resizable | WindowFlag.ExpandSize, 1000, 700);
+	Window window = Platform.instance.createWindow("Scribe — Write. Publish. Done.", null, WindowFlag.Resizable | WindowFlag.ExpandSize, 1000, 700);
 
 	VerticalLayout content = new VerticalLayout();
 	content.layoutWidth = FILL_PARENT;
@@ -297,40 +295,40 @@ extern (C) int UIAppMain(string[] args) {
 	// Simple menu
 	MenuItem mainMenuItems = new MenuItem();
 	MenuItem fileItem = new MenuItem(new Action(1, "File"d));
-	fileItem.add(new Action(SyndromeActions.FileOpenRepo, "Open repo..."d, "document-open", KeyCode.KEY_O, KeyFlag.Control));
-	fileItem.add(new Action(SyndromeActions.FileSave, "Save"d, "document-save", KeyCode.KEY_S, KeyFlag.Control));
-	fileItem.add(new Action(SyndromeActions.FileCommit, "Commit (push to GitHub)"d, "document-save-as"));
-	fileItem.add(new Action(SyndromeActions.FileSyncNav, "Sync page structure from content"d));
-	fileItem.add(new Action(SyndromeActions.FileExit, "Exit"d, "document-close", KeyCode.KEY_X, KeyFlag.Alt));
+	fileItem.add(new Action(ScribeActions.FileOpenSite, "Open Site..."d, "document-open", KeyCode.KEY_O, KeyFlag.Control));
+	fileItem.add(new Action(ScribeActions.FileSave, "Save"d, "document-save", KeyCode.KEY_S, KeyFlag.Control));
+	fileItem.add(new Action(ScribeActions.FilePublish, "Publish (push to site)"d, "document-save-as"));
+	fileItem.add(new Action(ScribeActions.FileSyncNav, "Organize site from content"d));
+	fileItem.add(new Action(ScribeActions.FileExit, "Exit"d, "document-close", KeyCode.KEY_X, KeyFlag.Alt));
 	MenuItem helpItem = new MenuItem(new Action(4, "Help"d));
-	helpItem.add(new Action(SyndromeActions.HelpSetupTools, "Set up tools (install gh, Git, log in)"d));
-	helpItem.add(new Action(SyndromeActions.HelpAbout, "About Syndrome"d));
+	helpItem.add(new Action(ScribeActions.HelpSetupTools, "Set up tools (install gh, Git, log in)"d));
+	helpItem.add(new Action(ScribeActions.HelpAbout, "About Scribe"d));
 	mainMenuItems.add(fileItem);
 	mainMenuItems.add(helpItem);
 
 	MainMenu mainMenu = new MainMenu(mainMenuItems);
 	content.addChild(mainMenu);
 
-	SyndromeFrame frame = new SyndromeFrame("main");
+	ScribeFrame frame = new ScribeFrame("main");
 	frame.layoutWidth = FILL_PARENT;
 	frame.layoutHeight = FILL_PARENT;
 	content.addChild(frame);
 
 	content.onAction = delegate(Widget source, const Action a) {
-		if (a.id == SyndromeActions.FileExit) {
+		if (a.id == ScribeActions.FileExit) {
 			window.close();
 			return true;
 		}
-		if (a.id == SyndromeActions.FileOpenRepo) return true;
-		if (a.id == SyndromeActions.FileSave) { frame.onSave(null); return true; }
-		if (a.id == SyndromeActions.FileCommit) { frame.onCommit(null); return true; }
-		if (a.id == SyndromeActions.FileSyncNav) { frame.onSyncNav(null); return true; }
-		if (a.id == SyndromeActions.HelpSetupTools) {
+		if (a.id == ScribeActions.FileOpenSite) return true;
+		if (a.id == ScribeActions.FileSave) { frame.onSave(null); return true; }
+		if (a.id == ScribeActions.FilePublish) { frame.onPublish(null); return true; }
+		if (a.id == ScribeActions.FileSyncNav) { frame.onSyncNav(null); return true; }
+		if (a.id == ScribeActions.HelpSetupTools) {
 			runOnboarding(window);
 			return true;
 		}
-		if (a.id == SyndromeActions.HelpAbout) {
-			window.showMessageBox("About Syndrome"d, "Syndrome — Edit Markdown/AsciiDoc in GitHub static site repos.\n\nFor non-technical users. Supports Hugo, Jekyll, MkDocs, Docusaurus, Astro, Starlight, Antora, VitePress, Eleventy, and more.\n\nNamed for \"Markdown Syndrome\" and for the Down Syndrome non-profit (Memphis, TN).\n\nGitHub: https://github.com/AMDphreak/syndrome\nDocs (GitHub Pages): https://amdphreak.github.io/syndrome\n\nAGPL-3.0-or-later © AMDphreak"d);
+		if (a.id == ScribeActions.HelpAbout) {
+			window.showMessageBox("About Scribe"d, "Scribe — Edit website content without boundaries.\n\nFor non-technical users. Supports Hugo, Jekyll, MkDocs, Docusaurus, Astro, Starlight, Antora, VitePress, Eleventy, and more.\n\nGitHub: https://github.com/AMDphreak/scribe\n\nAGPL-3.0-or-later © AMDphreak"d);
 			return true;
 		}
 		return false;

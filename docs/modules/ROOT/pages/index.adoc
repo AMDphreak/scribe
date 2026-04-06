@@ -1,14 +1,14 @@
-= Syndrome Documentation
+= Scribe Documentation
 
-Syndrome is a desktop app for editing Markdown and AsciiDoc content in GitHub-hosted static site repositories.
+Scribe is a desktop app for editing Markdown and AsciiDoc content in GitHub-hosted static site repositories.
 
 == Getting started
 
-* Download or build the app from the link:https://github.com/AMDphreak/syndrome[repository].
+* Download or build the app from the link:https://github.com/AMDphreak/scribe[repository].
 * Use Help → Set up tools to install GitHub CLI and Git (Windows: winget), then log in.
-* Paste a GitHub repo URL and click Open repo to clone and edit content.
+* Paste a GitHub repo URL and click Open Site to clone and edit content.
 
 == Links
 
-* link:https://github.com/AMDphreak/syndrome[GitHub repository]
-* link:https://amdphreak.github.io/syndrome[Homepage]
+* link:https://github.com/AMDphreak/scribe[GitHub repository]
+* link:https://amdphreak.github.io/scribe[Homepage]

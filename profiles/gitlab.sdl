@@ -1,0 +1,8 @@
+name "GitLab"
+host "gitlab.com"
+binary "git"
+authUrl "https://gitlab.com/oauth/authorize"
+tokenUrl "https://gitlab.com/oauth/token"
+apiUrl "https://gitlab.com/api/v4"
+helpUrl "https://docs.gitlab.com"
+setupGuide "Create an Application in GitLab User Settings. Use http://localhost:8080 as redirect URI."

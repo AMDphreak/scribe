@@ -3,7 +3,7 @@
  * Detects SSG type and content vs non-content tree from repo layout.
  * Supports: Hugo, Jekyll, MkDocs, Docusaurus, Astro, Starlight, Antora, VitePress, 11ty, Next (static), MDX.
  */
-module syndrome.ssg_detect;
+module scribe.ssg_detect;
 
 import std.algorithm : canFind, filter, map, sort, stripLeft, startsWith;
 import std.array : array;

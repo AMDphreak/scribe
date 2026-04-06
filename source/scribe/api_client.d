@@ -1,8 +1,8 @@
 /**
- * GitHub URL parsing, auth status, clone, and repo metadata (description/homepage).
- * Uses `gh` CLI when available for auth and API; falls back to git + token for clone.
+ * Scribe API Client
+ * Transitioning from CLI-based 'gh' to direct REST API with OAuth.
  */
-module syndrome.github_client;
+module scribe.api_client;
 
 import std.process : spawnProcess, wait, pipeProcess, Redirect;
 import std.stdio : readln;

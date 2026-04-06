@@ -1,16 +1,17 @@
-name "syndrome"
-description "Help non-technical users edit Markdown/AsciiDoc content in GitHub-hosted static site repos. Named for 'Markdown Syndrome' and for the Down Syndrome non-profit use case."
-homepage "https://github.com/amdphreak/syndrome"
+name "scribe"
+description "A user-friendly writing environment for static site content. Supports GitHub, GitLab, and custom VCS profiles via SDLang."
+homepage "https://github.com/amdphreak/scribe"
 license "AGPL-3.0-or-later"
 authors "AMDphreak"
 
 targetPath "bin"
 targetType "executable"
-targetName "syndrome"
+targetName "scribe"
 
 sourcePaths "source"
 
 dependency "dlangui" version="~>0.9.82"
+dependency "sdlang-d" version="~>0.10.6"
 
 configuration "default" {
 }
