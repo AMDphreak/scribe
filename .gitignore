@@ -1,33 +1,55 @@
-# D / DUB
-bin/
-.dub/
-__dummy.html
-*.o
-*.obj
-*.so
-*.a
-*.lib
-*.dll
-*.exe
+# ==============================================================================
+# Scribe Repository Allow-list
+# ==============================================================================
 
-# IDE
-.idea/
-*.iml
-.vscode/
-*.swp
-*.swo
-*~
+# Exclude everything by default
+*
 
-# OS
-.DS_Store
-Thumbs.db
-desktop.ini
+# Allow directories but don't track contents by default
+!*/
 
-# Syndrome app data (local clones, cache)
-.repos/
-.cache/
-*.log
+# --- Root Configuration Files ---
+!.gitignore
+!.npmrc
+!.github/
+!LICENSE
+!PROGRESS.md
+!README.adoc
+!SCRIBE_SPEC.md
+!antora-playbook.yml
+!dprint.jsonc
+!index.html
+!package.json
+!pnpm-lock.yaml
+!pnpm-workspace.yaml
+!postcss.config.js
+!scribe.code-workspace
+!tailwind.config.js
+!tsconfig.json
+!vite.config.ts
 
-# Build artifacts
-*.lst
-*.map
+# --- Source & Asset Directories ---
+!electron/**
+!profiles/**
+!src/**
+!docs/**
+!site/**
+
+# --- Nested Directory Exclusions ---
+# site/ is a sub-project with its own build artifacts
+site/node_modules/
+site/dist/
+
+# --- Always Excluded ---
+**/.DS_Store
+**/Thumbs.db
+**/desktop.ini
+**/*.log
+**/*.local
+**/node_modules/
+**/dist/
+**/dist-electron/
+**/dist-package/
+**/.cache/
+**/.temp/
+
