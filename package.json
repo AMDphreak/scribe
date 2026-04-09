@@ -1,0 +1,61 @@
+{
+  "name": "scribe",
+  "version": "1.0.0",
+  "description": "Scribe — The first-class writing environment for static site content.",
+  "author": "Ryan Johnson (AMDphreak)",
+  "license": "MIT",
+  "main": "dist-electron/main.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build && electron-builder",
+    "preview": "vite preview"
+  },
+  "packageManager": "pnpm@10.33.0",
+  "dependencies": {
+    "@kobalte/core": "^0.13.11",
+    "clsx": "^2.1.1",
+    "lucide-solid": "^1.7.0",
+    "solid-js": "^1.9.12",
+    "tailwind-merge": "^3.5.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.2.2",
+    "@types/electron": "^1.6.12",
+    "@types/node": "^25.5.2",
+    "autoprefixer": "^10.4.27",
+    "electron": "^41.1.1",
+    "electron-builder": "^26.8.1",
+    "esbuild": "^0.28.0",
+    "postcss": "^8.5.8",
+    "tailwindcss": "^4.2.2",
+    "typescript": "^6.0.2",
+    "vite": "^8.0.4",
+    "vite-plugin-electron": "^0.29.1",
+    "vite-plugin-electron-renderer": "^0.14.6",
+    "vite-plugin-solid": "^2.11.12"
+  },
+  "build": {
+    "appId": "com.amdphreak.scribe",
+    "productName": "Scribe",
+    "asar": true,
+    "directories": {
+      "output": "dist-package"
+    },
+    "files": [
+      "dist",
+      "dist-electron",
+      "package.json"
+    ],
+    "win": {
+      "target": [
+        "nsis",
+        "zip"
+      ],
+      "icon": "docs/images/scribe-logo.png"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
+    }
+  }
+}
