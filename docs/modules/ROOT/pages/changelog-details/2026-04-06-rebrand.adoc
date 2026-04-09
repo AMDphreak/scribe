@@ -1,0 +1,13 @@
+= 2026-04-06: Rebrand to Scribe & Electron Migration
+
+== Overview
+
+This release signifies a major architectural pivot for the project. Scribe has transitioned from an archaic `dlangui` native application into a rich, modern Electron + SolidJS desktop environment.
+
+== Changes
+
+* **Rebranding**: Project officially renamed from Syndrome to Scribe.
+* **Architecture**: The `dlangui` dependency and D-based event loop have been entirely removed.
+* **UI Refresh**: SolidJS and Solid-UI (Tailwind/Shadcn port) integration provides a unified, deeply-integrated dark theme experience.
+* **Electron Wrapper**: Re-implemented file-system parsing and GitHub API access using the Node.js Main Process to enable direct `gh` API wrappers over IPC.
+* **Antora Theme**: Implemented NPM distribution of `@antora/antora-dark-theme` for repository documentation.

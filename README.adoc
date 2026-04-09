@@ -21,6 +21,12 @@ image::docs/images/scribe-screenshot.png[Scribe Screenshot]
 4. Log in when prompted (the app will open your web browser).
 5. Start editing!
 
+== Changelog
+See link:docs/modules/ROOT/pages/CHANGELOG.adoc[Changelog] for a full timeline of changes.
+
+== Documentation
+For advanced setup, see the link:docs/OAUTH_SETUP.adoc[OAuth Setup Guide].
+
 == Configuration (Advanced)
 
 Scribe supports custom VCS providers and Git configurations via SDLang profiles. By default, it supports GitHub and GitLab.

@@ -1,0 +1,9 @@
+= Scribe Changelog
+
+This timeline documents the major features, bug fixes, and architectural adjustments made to Scribe.
+
+== Timeline
+
+* xref:changelog-details/2026-04-06-ux-overhaul.adoc[2026-04-06: Scribe UX Overhaul and Modularization]
+* xref:changelog-details/2026-04-06-rebrand.adoc[2026-04-06: Rebrand to Scribe & Electron Migration]
+

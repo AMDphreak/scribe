@@ -1,0 +1,31 @@
+= 2026-04-06: Scribe UX Overhaul and Modularization
+:doctype: article
+
+The Scribe writing environment has undergone a significant functional and architectural transformation to elevate it into a professional-grade documentation workbench.
+
+== Summary of Changes
+
+This phase focused on three core outcomes: visual excellence, semantic intelligence, and structural maintainability.
+
+=== Visual Excellence & Simulation
+* **Responsive Page Simulator**: Introduced a draggable width slider (320px to 2560px) for the preview canvas.
+* **Canvas Intelligence**: Implemented a `ResizeObserver`-based "Zoom-to-Fit" scaling system that automatically fits the preview to the available workspace.
+* **Theme System**: Full implementation of **Light**, **Dark**, and **Auto** modes, including theme-synced simulation panes to eliminate bright flashes.
+
+=== Semantic Intelligence & Performance
+* **Multi-Format Markup Library**: Native support for 7+ markup languages:
+** **CentrMark (CMK)**: dev-centr specific format integration with native snippets.
+** **Common Standards**: Org-mode, ReStructuredText, Textile, and WikiText.
+* **Format-Aware Editor**: The editor toolbar now dynamically swaps its formatting syntax (Bold, Italic, Link) based on the currently active file extension.
+* **Intelligent Provisioning**: Contextual "Initialize Preview" hooks for Asciidoctor, Antora, Hugo, and **Pandoc** (universal live renderer).
+
+=== Structural Maintainability
+* **Frontend Modularization**: Decomposed the monolithic `App.tsx` into a feature-based structure:
+** `src/config/markup.tsx`: Unified format registry.
+** `src/features/settings`, `src/features/explorer`, `src/features/auth`, `src/features/editor`: Encapsulated domain logic.
+* **Backend IPC Extensions**: Added path resolution handlers and a sample repository creation routine for new users.
+
+== Impacts
+* **Maintainability**: App.tsx reduced from 450+ to 160 lines.
+* **Onboarding**: Users can now instantly "Dabble" with a localized sample project.
+* **Productivity**: Contextual toolbars reduce syntax errors across diverse documentation projects.
