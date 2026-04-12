@@ -50,7 +50,7 @@ jobs:
 
       - name: Build Antora docs
         id: antora
-        uses: antora-supplemental/antora-build-action@main  # pin to @v1 after you publish a release
+        uses: antora-supplemental/antora-build-action@v1
         with:
           playbook: antora-playbook.yml
           working_directory: .
