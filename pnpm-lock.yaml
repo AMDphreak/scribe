@@ -34,7 +34,7 @@ importers:
         specifier: ^25.5.2
         version: 25.5.2
       antora-dark-theme:
-        specifier: ^0.1.4
+        specifier: ^0.1.6
         version: 0.1.6
       autoprefixer:
         specifier: ^10.4.27
