@@ -11,8 +11,11 @@ content:
 
 ui:
   bundle:
-    url: https://registry.npmjs.org/antora-dark-theme/-/antora-dark-theme-0.1.4.tgz
-  supplemental_files: ./site/src
+    url: https://gitlab.com/antora/antora-ui-default/-/jobs/artifacts/HEAD/raw/build/ui-bundle.zip?job=bundle-stable
+    snapshot: true
+  supplemental_files:
+    - ./node_modules/antora-dark-theme/supplemental-ui
+    - ./site/src
 
 output:
   dir: site/dist/docs
