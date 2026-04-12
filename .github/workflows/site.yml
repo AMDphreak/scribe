@@ -8,6 +8,8 @@ on:
       - "site/**"
       - "docs/**"
       - ".github/workflows/site.yml"
+      - "antora-playbook.yml"
+      - "package.json"
   workflow_dispatch:
 
 permissions:
