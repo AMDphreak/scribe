@@ -9,6 +9,19 @@
         }
       })();
     </script>
+    <script>
+      (function () {
+        try {
+          var key = "scribe-color-mode";
+          var pref = localStorage.getItem(key);
+          var mql = window.matchMedia("(prefers-color-scheme: dark)");
+          var resolved =
+            pref === "light" || pref === "dark" ? pref : mql.matches ? "dark" : "light";
+          document.documentElement.dataset.scribeTheme = resolved;
+          document.documentElement.style.colorScheme = resolved;
+        } catch (e) {}
+      })();
+    </script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Scribe — Edit static site content from GitHub</title>
