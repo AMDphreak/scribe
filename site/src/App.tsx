@@ -4,7 +4,12 @@ export default function App() {
   return (
     <div class="page">
       <header class="hero">
-        <h1 class="title">Scribe</h1>
+        <h1 class="title">
+          <span class="title-word">
+            <span class="title-cap">S</span>
+            <span class="title-tail">cribe</span>
+          </span>
+        </h1>
         <p class="tagline">Edit static site content from GitHub — no terminal required.</p>
         <p class="sub">
           Paste a repo URL, click to install tools once, then edit Markdown and AsciiDoc in a tree. Save locally, push when ready.

@@ -7,6 +7,7 @@
   --accent-soft: rgba(201, 162, 39, 0.15);
   --link: #d4af37;
   --font-display: "DM Serif Display", Georgia, serif;
+  --font-script: "Pinyon Script", cursive;
   --font-body: "Source Sans 3", system-ui, sans-serif;
 }
 
@@ -50,12 +51,30 @@ a:hover {
 }
 
 .title {
-  font-family: var(--font-display);
-  font-size: clamp(2.5rem, 8vw, 4rem);
+  font-family: var(--font-script);
+  font-size: clamp(3rem, 11vw, 5.25rem);
   font-weight: 400;
   margin: 0 0 0.5rem;
   letter-spacing: 0.02em;
+  line-height: 1.05;
   color: var(--text);
+}
+
+/* Match desktop app ScribeLogo: cap accent, script face */
+.title-word {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.02em;
+}
+
+.title-cap {
+  font-size: 1.12em;
+  color: var(--accent);
+}
+
+.title-tail {
+  color: var(--text);
+  opacity: 0.95;
 }
 
 .tagline {
