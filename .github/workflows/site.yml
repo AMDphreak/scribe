@@ -1,4 +1,4 @@
-# Build and deploy Syndrome site (SolidJS + Antora docs) to GitHub Pages
+﻿# Build and deploy Scribe site (SolidJS + Antora docs) to GitHub Pages
 name: Site
 
 on:
@@ -49,12 +49,20 @@ jobs:
           pnpm run build
 
       - name: Build Antora docs
-        run: pnpm dlx antora antora-playbook.yml
+        id: antora
+        uses: antora-supplemental/antora-build-action@main  # pin to @v1 after you publish a release
+        with:
+          playbook: antora-playbook.yml
+          working_directory: .
+          output_dir: site/dist
+          node_version: "22"
+          skip_install: true
+          create_nojekyll: true
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: site/dist
+          path: ${{ steps.antora.outputs.site-path }}
 
   deploy:
     name: Deploy to GitHub Pages

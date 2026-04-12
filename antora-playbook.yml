@@ -18,4 +18,4 @@ ui:
     - ./site/src
 
 output:
-  dir: site/dist/docs
+  dir: site/dist
