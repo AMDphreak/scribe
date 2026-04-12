@@ -4,7 +4,7 @@ This timeline documents the major features, bug fixes, and architectural adjustm
 
 == Timeline
 
-* xref:changelog-details/2026-04-12-antora-dark-theme.adoc[2026-04-12: Antora docs — npm theme + layered supplementals]
+* xref:changelog-details/2026-04-12-antora-dark-theme.adoc[2026-04-12: Antora docs — antora-dark-theme + playbook fix]
 * xref:changelog-details/2026-04-06-ux-overhaul.adoc[2026-04-06: Scribe UX Overhaul and Modularization]
 * xref:changelog-details/2026-04-06-rebrand.adoc[2026-04-06: Rebrand to Scribe & Electron Migration]
 

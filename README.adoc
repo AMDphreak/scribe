@@ -25,13 +25,13 @@ image::docs/images/scribe-screenshot.png[Scribe Screenshot]
 See link:docs/modules/ROOT/pages/CHANGELOG.adoc[Changelog] for a full timeline of changes.
 
 == Documentation
-For advanced setup, see the link:docs/OAUTH_SETUP.adoc[OAuth Setup Guide].
+For advanced setup, see the link:docs/modules/ROOT/pages/oauth-setup.adoc[OAuth Setup Guide].
 
 == Configuration (Advanced)
 
 Scribe supports custom VCS providers and Git configurations via SDLang profiles. By default, it supports GitHub and GitLab.
 
-See the link:docs/OAUTH_SETUP.adoc[OAuth Setup Guide] for information on setting up your own API keys.
+See the link:docs/modules/ROOT/pages/oauth-setup.adoc[OAuth Setup Guide] for information on setting up your own API keys.
 
 == License
 
