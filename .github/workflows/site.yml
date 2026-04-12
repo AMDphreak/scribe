@@ -44,7 +44,7 @@ jobs:
           pnpm run build
 
       - name: Build Antora docs
-        run: pnpm dlx antora docs/antora-playbook.yml
+        run: pnpm dlx antora antora-playbook.yml
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
