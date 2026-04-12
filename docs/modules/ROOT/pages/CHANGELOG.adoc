@@ -1,10 +1,19 @@
-= Scribe Changelog
+= Changelog
+:description: Timeline of notable Scribe releases and documentation updates.
+:page-toclevels: 3
+:toc:
 
-This timeline documents the major features, bug fixes, and architectural adjustments made to Scribe.
+This page is the **changelog hub** for Scribe: high-level entries in the timeline below link to **detail pages** under `changelog-details/` for design notes and migration context.
+For the raw AsciiDoc source, browse the link:https://github.com/AMDphreak/scribe/tree/main/docs/modules/ROOT/pages[docs module in the repository].
+
+== How to read it
+
+* Entries are ordered **newest first** in the timeline.
+* Each line links to a dedicated page with more depth (UX, Antora setup, rebranding, and so on).
+* App behavior and packaging changes are described here; day-to-day usage is covered in xref:index.adoc[Overview] and xref:oauth-setup.adoc[OAuth and API access].
 
 == Timeline
 
-* xref:changelog-details/2026-04-12-antora-dark-theme.adoc[2026-04-12: Antora docs — antora-dark-theme + playbook fix]
-* xref:changelog-details/2026-04-06-ux-overhaul.adoc[2026-04-06: Scribe UX Overhaul and Modularization]
-* xref:changelog-details/2026-04-06-rebrand.adoc[2026-04-06: Rebrand to Scribe & Electron Migration]
-
+* xref:changelog-details/2026-04-12-antora-dark-theme.adoc[2026-04-12 — Antora docs: theme, manual, and OAuth]
+* xref:changelog-details/2026-04-06-ux-overhaul.adoc[2026-04-06 — Scribe UX overhaul and modularization]
+* xref:changelog-details/2026-04-06-rebrand.adoc[2026-04-06 — Rebrand to Scribe and Electron migration]

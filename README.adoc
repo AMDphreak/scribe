@@ -22,16 +22,18 @@ image::docs/images/scribe-screenshot.png[Scribe Screenshot]
 5. Start editing!
 
 == Changelog
-See link:docs/modules/ROOT/pages/CHANGELOG.adoc[Changelog] for a full timeline of changes.
+See link:docs/modules/ROOT/pages/CHANGELOG.adoc[Changelog] in the repository, or the published timeline at https://amdphreak.github.io/scribe/docs/CHANGELOG.html[Changelog (GitHub Pages)].
 
 == Documentation
-For advanced setup, see the link:docs/modules/ROOT/pages/oauth-setup.adoc[OAuth Setup Guide].
+The Antora manual (overview, changelog hub, OAuth guide) is published at https://amdphreak.github.io/scribe/docs/[Scribe documentation].
+
+For advanced setup, see the link:docs/modules/ROOT/pages/oauth-setup.adoc[OAuth and API access] page in the docs module.
 
 == Configuration (Advanced)
 
 Scribe supports custom VCS providers and Git configurations via SDLang profiles. By default, it supports GitHub and GitLab.
 
-See the link:docs/modules/ROOT/pages/oauth-setup.adoc[OAuth Setup Guide] for information on setting up your own API keys.
+See link:docs/modules/ROOT/pages/oauth-setup.adoc[OAuth and API access] for registering your own OAuth application and editing `profiles/*.sdl`.
 
 == License
 

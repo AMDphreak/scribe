@@ -1,2 +1,4 @@
 * xref:index.adoc[Overview]
-* xref:oauth-setup.adoc[OAuth setup]
+* xref:CHANGELOG.adoc[Changelog]
+* Guides
+** xref:oauth-setup.adoc[OAuth and API access]

@@ -1,11 +1,18 @@
-= 2026-04-12: Antora docs — antora-dark-theme + playbook fix
+= 2026-04-12: Antora docs — theme, manual, and OAuth
 
 == Overview
 
 Published docs use the Antora default UI from GitLab plus the link:https://www.npmjs.com/package/antora-dark-theme[`antora-dark-theme`] supplemental UI from npm (installed at the repo root so `node_modules/...` resolves in CI).
 
-== Changes
+== UI and playbook
 
 * **Playbook**: `antora-playbook.yml` sets `ui.supplemental_files` to a **single directory path** (`./node_modules/antora-dark-theme/supplemental-ui`). In Antora, an **array** under `supplemental_files` is only for *virtual* files (`path` / `contents`), not a list of overlay folders — a mistaken array meant the dark theme never merged.
-* **OAuth guide**: `OAUTH_SETUP.adoc` lives under `docs/modules/ROOT/pages/oauth-setup.adoc` and appears in the docs nav. The Vite app under `site/` is unrelated to Antora UI.
 * **Dependencies**: `antora-dark-theme` remains a root devDependency; CI runs `pnpm install` before Antora.
+* The Vite app under `site/` is the marketing homepage only; it is not part of the Antora UI.
+
+== Manual structure
+
+* **Navigation** (`nav.adoc`): *Overview*, *Changelog*, and *Guides* → *OAuth and API access* so the changelog and OAuth guide are first-class entries, not orphan pages.
+* **Overview** (`index.adoc`): Product summary, first steps, and a documentation map linking the changelog, OAuth guide, repository, and marketing site.
+* **Changelog** (`CHANGELOG.adoc`): Hub page with an explicit “how to read” section and the timeline linking into `changelog-details/`.
+* **OAuth** (`oauth-setup.adoc`): When to use a custom OAuth app, callback URL, GitHub/GitLab steps, SDL profiles and the `profiles/` directory, warnings about secrets, and cross-references to other manual pages.

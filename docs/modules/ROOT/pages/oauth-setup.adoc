@@ -1,43 +1,75 @@
-= Scribe: OAuth Setup Guide
+= OAuth and API access
+:description: Configure GitHub or GitLab OAuth for Scribe when you use your own client ID and secret.
+:page-toclevels: 3
 :toc:
 
-Scribe connects directly to GitHub and GitLab APIs to allow you to "Publish" changes (commit and push) without using command-line tools. To enable this, you need to create your own OAuth Client ID and Secret if the default one is not provided.
+Scribe talks to **GitHub** and **GitLab** HTTP APIs so you can publish (commit and push) without running `git` or `gh` yourself for every action.
+For that, the app uses **OAuth 2.0** in the system browser.
+You only need the steps on this page if you **cannot** rely on the application’s default OAuth client or you are packaging Scribe for a different product identity.
 
-== GitHub Setup
+== When you need a custom OAuth app
 
-1. Log in to your GitHub account.
-2. Go to **Settings** -> **Developer settings** -> **OAuth Apps**.
-3. Click **New OAuth App**.
-4. Set the following:
-   * **Application name**: `Scribe` (or your choice)
-   * **Homepage URL**: `https://github.com/amdphreak/scribe`
-   * **Authorization callback URL**: `http://localhost:8080/callback` (Required for local auth)
-5. Click **Register application**.
-6. Note your **Client ID**.
-7. Click **Generate a new client secret** and save it safely.
+* You ship a **fork** or **white-label** build and must not use the default client ID.
+* Your organization requires **its own** OAuth application with audited callback URLs and secrets rotation.
+* You are **debugging** auth and want full control over the GitHub/GitLab application settings.
 
-== GitLab Setup
+If you only use public GitHub/GitLab with the stock Scribe build, follow the in-app prompts first; come back here when you need to register your own app.
 
-1. Log in to your GitLab account.
-2. Go to **User Settings** -> **Applications**.
-3. Set the following:
-   * **Name**: `Scribe`
-   * **Redirect URI**: `http://localhost:8080/callback`
-   * **Scopes**: Check `api`, `read_user`, `write_repository`.
-4. Click **Save application**.
-5. Note your **Application ID** (Client ID) and **Secret**.
+== Callback and localhost
 
-== Updating Scribe Profiles
+Scribe expects the OAuth redirect to match the profile configuration.
+Shipped profiles use a **localhost** callback on port **8080**:
 
-Scribe stores these settings in `.sdl` files in your user profile or the application directory.
+* **Redirect / authorization callback:** `http://localhost:8080/callback`
+
+Register that exact URL on the provider unless you change both the provider app *and* the matching profile fields in Scribe.
+
+== GitHub
+
+. Log in to GitHub.
+. Open **Settings** → **Developer settings** → **OAuth Apps**.
+. Select **New OAuth App**.
+. Recommended fields:
+   * **Application name** — `Scribe` or your product name.
+   * **Homepage URL** — your project or company home (for example `https://github.com/AMDphreak/scribe`).
+   * **Authorization callback URL** — `http://localhost:8080/callback`.
+. Save the app, copy the **Client ID**, then **Generate a new client secret** and store the secret securely.
+
+== GitLab
+
+. Log in to GitLab.
+. Open **Preferences** → **Applications** (or **User Settings** → **Applications**, depending on GitLab version).
+. Create an application with:
+   * **Name** — `Scribe` or your choice.
+   * **Redirect URI** — `http://localhost:8080/callback`.
+   * **Scopes** — enable `api`, `read_user`, and `write_repository` (or the minimum your workflow requires).
+. Save and copy the **Application ID** (client ID) and **Secret**.
+
+== Profiles (SDL)
+
+Scribe reads **VCS profiles** from the `profiles/` directory next to the application (see the link:https://github.com/AMDphreak/scribe/tree/main/profiles[profiles] folder in the repository for examples such as `github.sdl` and `gitlab.sdl`).
+Each file describes the host, OAuth endpoints, and optional `clientId` / `clientSecret` overrides.
+
+Example fragment (replace placeholders with your credentials):
 
 [source,sdl]
 ----
-// profiles/github.sdl
 name "GitHub"
 host "github.com"
 clientId "YOUR_CLIENT_ID"
 clientSecret "YOUR_CLIENT_SECRET"
 ----
 
-WARNING: Never share your Client Secret with anyone. If you are building Scribe for others, you should handle the secret securely or use the default public app flow if available.
+The shipped profiles include `authUrl`, `tokenUrl`, and `apiUrl` for each host; keep those unless you use GitHub Enterprise or self-managed GitLab with different base URLs.
+
+WARNING: Never commit real client secrets to a public repository. Use local overrides or a private config path for production secrets.
+
+== After you change a profile
+
+Restart Scribe or reload the site so profile discovery picks up changes.
+Use **Settings** → **Profiles** in the app to confirm the host appears and connect the account again if the provider requires a new consent screen.
+
+== Related documentation
+
+* xref:index.adoc[Overview] — first-run flow and publishing at a high level.
+* xref:CHANGELOG.adoc[Changelog] — history of auth- and profile-related work (see entries for UX and rebranding).

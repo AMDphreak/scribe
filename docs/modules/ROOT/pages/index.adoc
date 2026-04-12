@@ -1,16 +1,47 @@
-= Scribe Documentation
+= Scribe documentation
+:description: User guide for Scribe — edit and publish static-site content without living on the command line.
+:keywords: Scribe, AsciiDoc, Markdown, GitHub, GitLab, static site
 
-Scribe is a desktop app for editing Markdown and AsciiDoc content in GitHub-hosted static site repositories.
+Scribe is a desktop app for editing link:https://asciidoctor.org[AsciiDoc] and Markdown in Git-backed static site repositories.
+It targets people who maintain sites built with Astro, Hugo, Jekyll, Eleventy, and similar generators, but who do not want to manage Git or OAuth details by hand for day-to-day edits.
 
-These pages use link:https://antora.org[Antora] with the default UI bundle plus link:https://www.npmjs.com/package/antora-dark-theme[`antora-dark-theme` from npm] (dark mode supplemental UI). The `site/` directory at the repo root is the link:https://github.com/AMDphreak/scribe/tree/main/site[Vite marketing homepage], not part of the Antora UI.
+== What you can do
 
-== Getting started
+* Open a **GitHub** or **GitLab** repository by URL, work in a focused editor, and **Publish** (commit and push) from the app.
+* Stay out of the terminal for normal authoring; Scribe can install or use **Git** and **GitHub CLI** where needed (see Help → Set up tools on Windows).
+* Use **profiles** (SDL) for host-specific auth and API endpoints—see xref:oauth-setup.adoc[OAuth and API access] when you need your own OAuth application.
 
-* Download or build the app from the link:https://github.com/AMDphreak/scribe[repository].
-* Use Help → Set up tools to install GitHub CLI and Git (Windows: winget), then log in.
-* Paste a GitHub repo URL and click Open Site to clone and edit content.
+== First steps
 
-== Links
+. Install Scribe from the link:https://github.com/AMDphreak/scribe/releases[Releases] page (or build from source).
+. Open the app and paste your site’s repository URL, then choose **Open Site** to clone and open the project.
+. Complete browser login when prompted so Scribe can talk to the host API for publish operations.
+. Edit pages; use **Publish** when you are ready to push commits to the default branch (workflow details depend on your repo).
 
-* link:https://github.com/AMDphreak/scribe[GitHub repository]
-* link:https://amdphreak.github.io/scribe[Homepage]
+== Documentation map
+
+[cols="1,3",opts=header]
+|===
+| Topic | Description
+
+| xref:CHANGELOG.adoc[Changelog]
+| Release-style timeline with links to dated detail pages for larger changes.
+
+| xref:oauth-setup.adoc[OAuth and API access]
+| Create GitHub/GitLab OAuth apps, callback URLs, and profile files when you do not use bundled defaults.
+
+| link:https://github.com/AMDphreak/scribe[Source repository]
+| Issue tracker, releases, and development history.
+
+| link:https://amdphreak.github.io/scribe[Marketing site]
+| Short product landing page (separate from this Antora manual).
+|===
+
+== This manual
+
+These HTML pages are built with link:https://antora.org[Antora] and the link:https://www.npmjs.com/package/antora-dark-theme[antora-dark-theme] supplemental UI (dark mode).
+The `site/` folder in the repository is a small link:https://github.com/AMDphreak/scribe/tree/main/site[Vite marketing site]; it is not part of this manual’s UI bundle.
+
+== License
+
+Scribe is licensed under **AGPL-3.0-or-later**. See the repository `LICENSE` file.
