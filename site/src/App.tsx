@@ -1,3 +1,5 @@
+const docsHref = `${import.meta.env.BASE_URL}docs/`;
+
 export default function App() {
   return (
     <div class="page">
@@ -11,7 +13,9 @@ export default function App() {
           <a href="https://github.com/AMDphreak/Scribe" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
             View on GitHub
           </a>
-          <a href="docs/" class="btn btn-secondary">Docs</a>
+          <a href={docsHref} class="btn btn-secondary">
+            Docs
+          </a>
         </div>
       </header>
 
@@ -39,7 +43,7 @@ export default function App() {
         <p>
           <a href="https://github.com/AMDphreak/Scribe">Repository</a>
           {" · "}
-          <a href="docs/">Documentation</a>
+          <a href={docsHref}>Documentation</a>
           {" · "}
           AGPL-3.0-or-later
         </p>
