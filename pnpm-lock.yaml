@@ -33,6 +33,9 @@ importers:
       '@types/node':
         specifier: ^25.5.2
         version: 25.5.2
+      antora-dark-theme:
+        specifier: ^0.1.4
+        version: 0.1.4
       autoprefixer:
         specifier: ^10.4.27
         version: 10.4.27(postcss@8.5.8)
@@ -795,6 +798,9 @@ packages:
   ansi-styles@6.2.3:
     resolution: {integrity: sha512-4Dj6M28JB+oAH8kFkTLUo+a2jwOFkuqb3yucU0CANcRRUbxS0cP0nZYCGjcc3BNXwRIsUVmDGgzawme7zvJHvg==}
     engines: {node: '>=12'}
+
+  antora-dark-theme@0.1.4:
+    resolution: {integrity: sha512-/D5dVONMFWyL44z8GZ29+wET3dnkfUfiSLduTqESopY2SjX2kTaCt4GmYGmAJIuG0VCSvq572pjY+eyF+aPJ+A==}
 
   app-builder-bin@5.0.0-alpha.12:
     resolution: {integrity: sha512-j87o0j6LqPL3QRr8yid6c+Tt5gC7xNfYo6uQIQkorAC6MpeayVMZrEDzKmJJ/Hlv7EnOQpaRm53k6ktDYZyB6w==}
@@ -2922,6 +2928,8 @@ snapshots:
       color-convert: 2.0.1
 
   ansi-styles@6.2.3: {}
+
+  antora-dark-theme@0.1.4: {}
 
   app-builder-bin@5.0.0-alpha.12: {}
 
