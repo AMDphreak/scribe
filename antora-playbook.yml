@@ -1,6 +1,7 @@
 site:
   title: Scribe
-  url: https://amdphreak.github.io/scribe
+  # Published under /scribe/docs/ (GitHub Pages project site + Vite marketing at /scribe/)
+  url: https://amdphreak.github.io/scribe/docs
   start_page: docs::index.adoc
 
 content:
@@ -16,4 +17,5 @@ ui:
   supplemental_files: ./node_modules/antora-dark-theme/supplemental-ui
 
 output:
-  dir: site/dist
+  # Write only into dist/docs so `pnpm --filter scribe-site build` keeps dist/index.html (marketing).
+  dir: site/dist/docs
