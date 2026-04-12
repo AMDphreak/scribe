@@ -4,8 +4,6 @@ Scribe is a desktop app for editing Markdown and AsciiDoc content in GitHub-host
 
 These pages use link:https://antora.org[Antora] with the default UI bundle, link:https://www.npmjs.com/package/antora-dark-theme[`antora-dark-theme` from npm] as the first supplemental layer (dark mode), and link:https://github.com/AMDphreak/scribe/tree/main/site/src[`site/src`] layered after that for any extra UI overrides.
 
-Most teams already run Antora beside Node (npm/pnpm), so prefer that package-managed setup: add `antora-dark-theme` as a dev dependency, list `./node_modules/antora-dark-theme/supplemental-ui` in `supplemental_files`, and layer your own directories after it. Use the theme’s pre-built `ui-bundle.zip` only when you deliberately want **no** JavaScript toolchain (minimal CI, non-Node repo).
-
 == Getting started
 
 * Download or build the app from the link:https://github.com/AMDphreak/scribe[repository].
