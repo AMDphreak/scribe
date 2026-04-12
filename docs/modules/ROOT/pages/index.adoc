@@ -2,6 +2,8 @@
 
 Scribe is a desktop app for editing Markdown and AsciiDoc content in GitHub-hosted static site repositories.
 
+These pages are built with link:https://antora.org[Antora] and the link:https://github.com/antora-supplemental/antora-dark-theme[antora-dark-theme] UI bundle (light/dark toggle and system preference).
+
 == Getting started
 
 * Download or build the app from the link:https://github.com/AMDphreak/scribe[repository].

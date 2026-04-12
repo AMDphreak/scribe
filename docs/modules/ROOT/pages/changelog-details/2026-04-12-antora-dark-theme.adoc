@@ -1,0 +1,11 @@
+= 2026-04-12: Antora docs use antora-dark-theme bundle
+
+== Overview
+
+The GitHub Pages documentation build now consumes the pre-built UI bundle from link:https://github.com/antora-supplemental/antora-dark-theme[antora-dark-theme] instead of layering the default Antora UI with a local `node_modules` supplemental path.
+
+== Changes
+
+* **Playbook**: `antora-playbook.yml` points `ui.bundle.url` at the theme’s `ui-bundle.zip` release artifact.
+* **Dependencies**: Dropped the unused `antora-dark-theme` devDependency from the root `package.json` (CI resolves the bundle by URL).
+* **Docs**: Corrected the rebrand changelog note that referenced a non-existent scoped npm package name.
