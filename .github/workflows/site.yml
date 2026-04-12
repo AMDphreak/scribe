@@ -37,16 +37,13 @@ jobs:
         with:
           node-version: "22"
           cache: "pnpm"
-          cache-dependency-path: site/pnpm-lock.yaml
+          cache-dependency-path: pnpm-lock.yaml
 
       - name: Install root dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Install and build site
-        run: |
-          cd site
-          pnpm install --frozen-lockfile
-          pnpm run build
+      - name: Build site (Vite)
+        run: pnpm --filter scribe-site run build
 
       - name: Build Antora docs
         id: antora
