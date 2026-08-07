@@ -14,7 +14,7 @@
 !.github/
 !LICENSE
 !PROGRESS.md
-!README.adoc
+!README.md
 !SCRIBE_SPEC.md
 !antora-playbook.yml
 !dprint.jsonc
