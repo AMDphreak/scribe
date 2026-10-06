@@ -30,9 +30,9 @@ importers:
       '@types/node':
         specifier: ^25.5.2
         version: 25.5.2
-      antora-dark-theme:
-        specifier: ^0.1.6
-        version: 0.1.6
+      antora-dark-mode:
+        specifier: ^1.4.5
+        version: 1.4.5
       autoprefixer:
         specifier: ^10.4.27
         version: 10.4.27(postcss@8.5.8)
@@ -1105,9 +1105,8 @@ packages:
     resolution: {integrity: sha512-4Dj6M28JB+oAH8kFkTLUo+a2jwOFkuqb3yucU0CANcRRUbxS0cP0nZYCGjcc3BNXwRIsUVmDGgzawme7zvJHvg==}
     engines: {node: '>=12'}
 
-  antora-dark-theme@0.1.6:
-    resolution: {integrity: sha512-lvP7kbWH6LX2/IphBR2HyhuVqZjAnzdc5iFYwQVYk37gINFCjWOFnGpmLU3A9OR+MYNthJes2OcS50M3X2iX6w==}
-    deprecated: Renamed — use antora-dark-mode. See https://github.com/antora-supplemental/antora-dark-mode
+  antora-dark-mode@1.4.5:
+    resolution: {integrity: sha512-OcwE2EBdsyh7Zhk8xFCM6TeleSwYP8lA0EXcltB23pJL3hQgUW9rHf6pi2tg2YDKG6pB+dE1wzbnU2hhTxyg3g==}
 
   app-builder-bin@5.0.0-alpha.12:
     resolution: {integrity: sha512-j87o0j6LqPL3QRr8yid6c+Tt5gC7xNfYo6uQIQkorAC6MpeayVMZrEDzKmJJ/Hlv7EnOQpaRm53k6ktDYZyB6w==}
@@ -3442,7 +3441,7 @@ snapshots:
 
   ansi-styles@6.2.3: {}
 
-  antora-dark-theme@0.1.6: {}
+  antora-dark-mode@1.4.5: {}
 
   app-builder-bin@5.0.0-alpha.12: {}
 

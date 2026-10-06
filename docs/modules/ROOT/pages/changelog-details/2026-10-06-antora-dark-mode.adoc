@@ -1,0 +1,7 @@
+= 2026-10-06 - antora-dark-mode rename
+:description: Migrated docs UI overlay from antora-dark-theme to antora-dark-mode.
+
+Published docs now use link:https://www.npmjs.com/package/antora-dark-mode[ntora-dark-mode] `^1.4.5` instead of the retired `antora-dark-theme` package.
+
+* **Playbook**: `ui.supplemental_files` points at `./node_modules/antora-dark-mode/supplemental-ui` (Default UI remains `ui.bundle`).
+* **Behavior**: Dark mode overlay keeps the `dark-theme` class; preference storage uses `antora-theme-mode` with a one-time read of legacy `antora-theme`.

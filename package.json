@@ -21,7 +21,7 @@
   "devDependencies": {
     "@tailwindcss/postcss": "^4.2.2",
     "@types/node": "^25.5.2",
-    "antora-dark-theme": "^0.1.6",
+    "antora-dark-mode": "^1.4.5",
     "autoprefixer": "^10.4.27",
     "electron": "^41.1.1",
     "electron-builder": "^26.8.1",

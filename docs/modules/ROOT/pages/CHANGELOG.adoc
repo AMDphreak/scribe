@@ -14,6 +14,7 @@ For the raw AsciiDoc source, browse the link:https://github.com/AMDphreak/scribe
 
 == Timeline
 
+* xref:changelog-details/2026-10-06-antora-dark-mode.adoc[2026-10-06 — antora-dark-mode rename]
 * xref:changelog-details/2026-04-12-antora-dark-theme.adoc[2026-04-12 — Antora docs: theme, manual, and OAuth]
 * xref:changelog-details/2026-04-06-ux-overhaul.adoc[2026-04-06 — Scribe UX overhaul and modularization]
 * xref:changelog-details/2026-04-06-rebrand.adoc[2026-04-06 — Rebrand to Scribe and Electron migration]

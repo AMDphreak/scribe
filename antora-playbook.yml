@@ -14,7 +14,7 @@ ui:
   bundle:
     url: https://gitlab.com/antora/antora-ui-default/-/jobs/artifacts/HEAD/raw/build/ui-bundle.zip?job=bundle-stable
     snapshot: true
-  supplemental_files: ./node_modules/antora-dark-theme/supplemental-ui
+  supplemental_files: ./node_modules/antora-dark-mode/supplemental-ui
 
 output:
   # Write only into dist/docs so `pnpm --filter scribe-site build` keeps dist/index.html (marketing).

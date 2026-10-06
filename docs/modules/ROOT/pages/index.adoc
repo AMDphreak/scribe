@@ -39,7 +39,7 @@ It targets people who maintain sites built with Astro, Hugo, Jekyll, Eleventy, a
 
 == This manual
 
-These HTML pages are built with link:https://antora.org[Antora] and the link:https://www.npmjs.com/package/antora-dark-theme[antora-dark-theme] supplemental UI (dark mode).
+These HTML pages are built with link:https://antora.org[Antora] and the link:https://www.npmjs.com/package/antora-dark-mode[antora-dark-mode] supplemental UI (dark mode).
 The `site/` folder in the repository is a small link:https://github.com/AMDphreak/scribe/tree/main/site[Vite marketing site]; it is not part of this manual’s UI bundle.
 
 == License
